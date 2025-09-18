@@ -1,23 +1,34 @@
 cmake_minimum_required(VERSION 3.30)
-
 project(icl VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-include(FetchContent)
+add_library(icl INTERFACE)
+add_library(icl::icl ALIAS icl)
 
-FetchContent_Declare(
-  Catch2
-  GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-  GIT_TAG        v3.10.0
+target_include_directories(icl INTERFACE
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/icl>
+  $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-FetchContent_MakeAvailable(Catch2)
+option(ICL_BUILD_TEST "Build test" OFF)
 
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+if(ICL_BUILD_TEST)
+  include(FetchContent)
 
-include(CTest)
-include(Catch)
+  FetchContent_Declare(
+    Catch2
+    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+    GIT_TAG        v3.10.0
+  )
 
-add_subdirectory(test)
+  FetchContent_MakeAvailable(Catch2)
+
+  list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+
+  include(CTest)
+  include(Catch)
+
+  add_subdirectory(test)
+endif()
