@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30)
-project(icl VERSION 1.0 LANGUAGES CXX)
+project(interval VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -8,7 +8,7 @@ add_library(icl INTERFACE)
 add_library(icl::icl ALIAS icl)
 
 target_include_directories(icl INTERFACE
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/icl>
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
